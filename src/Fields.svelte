@@ -33,7 +33,7 @@
 		border focus:outline outline-2 outline-white
 		placeholder:text-neutral-200 select-none
 		p-1.5 text-xl w-full "
-				placeholder={i == game.guesses ? "Search for a song..." : ""}
+				placeholder={i == game.guesses ? "Bilatu kanta..." : ""}
 			/>
 		</div>
 	{/each}
@@ -42,6 +42,7 @@
 <style lang="postcss">
 	.correct {
 		@apply outline bg-correct-700/50;
+		background-color: #3bbb3b;
 	}
 	.incorrect {
 		@apply bg-incorrect-500/50;

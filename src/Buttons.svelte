@@ -12,7 +12,7 @@
     bg-neutral-500/50 
     touch:active:bg-neutral-500/70 
     mouse:hover:bg-neutral-500/70"
-        on:click={skip}>Skip{addSeconds ? ` (+${addSeconds}s)` : ""}</button
+        on:click={skip}>Salto{addSeconds ? ` (+${addSeconds}s)` : ""}</button
     >
 
     <button
@@ -22,6 +22,6 @@
     touch:active:bg-submit-700/70 
     mouse:hover:bg-submit-700/70"
         on:click={submit}
-        bind:clientHeight={height}>Submit</button
+        bind:clientHeight={height}>Asmatu!</button
     >
 </div>

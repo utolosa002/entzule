@@ -1,10 +1,9 @@
-<script>
+<script lang="ts">
 	import Game from "./Game.svelte";
 </script>
 
 <div
 	class="
-	 bg-gradient-to-r from-primary-500 to-secondary-500
 	 flex
 	 justify-center
 	 items-center
@@ -28,7 +27,8 @@
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 			Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 		text-align: center;
-		color: white;
+		color: black;
+		background-color: #81e2ff;
 	}
 
 	.autoComplete_wrapper {

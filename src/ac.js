@@ -24,7 +24,7 @@ export function AC(field) {
                 if (!data.results.length) {
                     const message = document.createElement("div");
                     message.setAttribute("class", "no_result");
-                    message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
+                    message.innerHTML = `<span>Emaitzarik ez "${data.query}"-rekin</span>`;
                     list.prepend(message);
                 }
             },

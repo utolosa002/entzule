@@ -1,14 +1,44 @@
 <script>
+    import { toasts, ToastContainer, FlatToast }  from "svelte-toasts";
+    import { getYesterdaysSong } from "./Date";
     export let song;
     export let height;
-    export let retryButton;
+    export let shareButton;
     export let artwork;
-
+    export let guesses;
     let nameHeight;
 
     function blur() {
-		setTimeout(() => retryButton.focus(), 0);
+		setTimeout(() => shareButton.focus(), 0);
 	}
+    
+    const copyToClipboard = () => {
+    console.log(getYesterdaysSong());
+    console.log(guesses);
+    guesses=guesses+1;
+    let shareTxt="#Entzule \n Gaur saiakera hauek behar izan ditut: "+guesses+
+    //"\nAtzoko kanta: "+ getYesterdaysSong().name+
+    "\nhttps://utolosa002.github.io/entzule"
+    navigator.clipboard.writeText(shareTxt);
+    showToast("Emaitza arbelean kopiatuta.");
+  };
+const showToast = () => {
+  const toast = toasts.add({
+    title: 'Arbelera kopiatuta',
+    description: 'zabaldu!',
+    duration: 10000, // 0 or negative to avoid auto-remove
+    placement: 'top-right',
+    type: 'info',
+    theme: 'dark',
+    type: 'success',
+    onClick: () => {},
+    onRemove: () => {},
+    // component: BootstrapToast, // allows to override toast component/template per toast
+  });
+
+  // toast.remove()
+
+};
 </script>
 
 <div class="flex" style="height: {Math.max(height+2,nameHeight+10)}px">
@@ -17,7 +47,7 @@
 bg-gradient-to-r from-primary2-500/70 to-secondary2-500/40 text-left border grow h-full
 "
     >
-        <a href={song.url} title="Listen to {song.name} on SoundCloud"
+        <a href={song.url} title="Entzun {song.name} SoundCloud-en"
             ><div class="flex items-center h-full">
                 <img src={artwork} alt={song.name} style="height: calc(100% - 1px); max-height: 100px"/>
                 <div class="flex-1 mx-3 text-white" bind:clientHeight={nameHeight}>
@@ -69,8 +99,11 @@ bg-gradient-to-r from-primary2-500/70 to-secondary2-500/40 text-left border grow
 bg-submit-700/50 
 touch:active:bg-submit-700/70
 mouse:hover:bg-submit-700/70"
-        bind:this={retryButton}
+        bind:this={shareButton}
         on:blur={blur}
-        on:click={() => location.reload()}>Retry</button
+        on:click={copyToClipboard}>Zabaldu</button
     >
+    <ToastContainer placement="bottom-right" let:data={data}>
+      <FlatToast {data} /> <!-- Provider template for your toasts -->
+    </ToastContainer>
 </div>

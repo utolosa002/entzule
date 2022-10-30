@@ -4,9 +4,11 @@
     import Buttons from "./Buttons.svelte";
     import Credits from "./Credits.svelte";
     import Music from "./Music.svelte";
-    import { songs } from "./songs.js";
+    import { getTodaysSong } from "./Date.js";
     import { tick } from "svelte";
     import { AC } from "./ac";
+    import { DateTime } from "luxon";
+    let date = DateTime.local({ zone: "Europe/Paris" });
 
     function preloadImage(url) {
         var img = new Image();
@@ -58,7 +60,8 @@
     }
 
     const lengths = [1, 2, 4, 7, 11, 16];
-    const song = songs[Math.floor(Math.random() * songs.length)];
+
+    const song = getTodaysSong(date);
 
     let game = {
         over: false,
@@ -66,15 +69,17 @@
         fields: Array(6),
         keepPos: false,
         statuses: Array(6).fill(""),
+        played:false,
     };
     let ac;
     let music;
     let songInfo;
     $: if (songInfo?.artwork_url) preloadImage(songInfo.artwork_url);
-    let retryButton;
+    let shareButton;
 
     function guessMade() {
         game.guesses++;
+
         if (game.guesses == 6) {
             end();
         } else {
@@ -84,6 +89,13 @@
             music.setDur(lengths[game.guesses] * 1000);
         }
         music.setResetOnToggle(false);
+    }
+    export function getGuesses() {
+        if (localStorage.getItem("gameState")!=null){
+            return localStorage.getItem("gameState").board;
+        }else{
+            return 0;
+        }
     }
     function submit() {
         if (game.fields[game.guesses].value === "") skip();
@@ -102,7 +114,7 @@
     }
     function skip() {
         game.statuses[game.guesses] = "skipped";
-        game.fields[game.guesses].value = "SKIPPED";
+        game.fields[game.guesses].value = "SALTO";
         guessMade();
     }
     function end() {
@@ -111,11 +123,11 @@
         music.setResetOnToggle(true);
         music.seek(0);
         music.play();
-        tick().then(() => retryButton.focus());
-        tip = "Press Enter to go to next song";
+        tick().then(() => shareButton.focus());
+        tip = "Bihar hurrengo kanta!";
     }
     function toggle() {
-        if (!game.over) tip = "Select with arrow keys or mouse, press Enter to confirm/skip";
+        if (!game.over) tip = "Hautatu geziekin edo saguarekin eta sakatu intro baieztatzeko edo salto egiteko";
         music.toggle();
         music.setResetOnToggle(true);
     }
@@ -126,8 +138,8 @@
     });
 
     const clickAnywhereTip =
-        "Click anywhere or turn on autoplay to enable using Tab";
-    const clickPlayTip = "Click the play button or press Tab";
+        "Klikatu edonon edo piztu auto erreproduzitzea Tab tekla erabiliaz";
+    const clickPlayTip = "Klikatu erreproduzitzeko botoia edo sakatu Tab botoia";
 
     let tip = clickPlayTip;
     let testAutoplay = navigator.userAgent.toLowerCase().includes("firefox");
@@ -156,7 +168,7 @@
 
 <svelte:window on:keydown={kd} on:click={clk} />
 <div class="w-full max-w-xl p-2">
-    <h1 class="text-5xl font-bold m-4">🎵 Saund 🎵</h1>
+    <h1 class="text-5xl font-bold m-4">Entzule</h1>
     <Music {song} bind:info={songInfo} bind:this={music} bind:status />
     <Fields {submit} {game} />
 
@@ -167,7 +179,7 @@
         <Player {status} {toggle} gameOver={game.over}/>
     {/if}
     <div class="my-4">
-        {#if !game.over}
+        {#if !game.over& !game.played}
             <Buttons
                 addSeconds={lengths[game.guesses + 1] - lengths[game.guesses]}
                 {skip}
@@ -179,7 +191,8 @@
                 {song}
                 artwork={songInfo.artwork_url}
                 height={buttonHeight}
-                bind:retryButton
+                guesses={game.guesses}
+                bind:shareButton
             />
         {/if}
     </div>

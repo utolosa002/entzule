@@ -1,5 +1,13 @@
-# saund
-Latest build: https://saund.pages.dev
+# entzule
+Saund-en euskarazko bertsioa da entzule: https://utolosa002.github.io/entzule/
+
+Kodea: https://github.com/utolosa002/entzule
+
+## Saund
+Saund: https://saund.pages.dev
+
+Kodea: https://github.com/discapes/saund
+
 
 ## Get started
 

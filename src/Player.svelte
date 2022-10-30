@@ -70,14 +70,14 @@
         border-radius: 0px;
         border-style: solid;
         border-width: 37px 0 37px 60px;
-        border-color: transparent transparent transparent #f5f5f5;
+        border-color: transparent transparent transparent #000;
 
         &.playing {
             border-style: double;
             border-width: 0px 0 0px 60px;
         }
         &:hover {
-            border-color: transparent transparent transparent #ffffff;
+            border-color: transparent transparent transparent #000;
         }
     }
 </style>
